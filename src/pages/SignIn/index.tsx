@@ -5,6 +5,8 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  TextInput,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';
@@ -32,6 +34,7 @@ import {
 const SignIn: React.FC = () => {
   const navegation = useNavigation();
   const formRef = useRef<FormHandles>(null);
+  const passwordInputRef = useRef<TextInput>(null);
 
   const handleSignIn = useCallback(data => {
     console.log(data);
@@ -56,9 +59,30 @@ const SignIn: React.FC = () => {
             </View>
 
             <Form ref={formRef} onSubmit={handleSignIn}>
-              <Input name="email" icon="mail" placeholder="E-mail" />
+              <Input
+                autoCorrect={false}
+                autoCapitalize="none"
+                returnKeyType="next"
+                keyboardType="email-address"
+                name="email"
+                icon="mail"
+                placeholder="E-mail"
+                onSubmitEditing={() => {
+                  // eslint-disable-next-line no-unused-expressions
+                  passwordInputRef.current?.focus();
+                }}
+              />
 
-              <Input name="password" icon="lock" placeholder="Senha" />
+              <Input
+                ref={passwordInputRef}
+                secureTextEntry
+                autoCapitalize="none"
+                returnKeyType="send"
+                name="password"
+                icon="lock"
+                placeholder="Senha"
+                onSubmitEditing={() => formRef.current?.submitForm()}
+              />
 
               <Button onPress={() => formRef.current?.submitForm()}>
                 Entrar
