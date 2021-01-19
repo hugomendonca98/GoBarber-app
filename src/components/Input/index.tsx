@@ -6,7 +6,6 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { TextInputProps } from 'react-native';
 import { useField } from '@unform/core';
 
@@ -26,7 +25,6 @@ interface InputRef {
 }
 
 const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
-  // eslint-disable-next-line react/prop-types
   { name, icon, ...rest },
   ref,
 ) => {

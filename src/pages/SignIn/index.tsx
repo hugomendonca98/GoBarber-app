@@ -15,7 +15,6 @@ import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
 
 import { Form } from '@unform/mobile';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormHandles } from '@unform/core';
 import getValidationErros from '../../utils/getValidationErros';
 
@@ -45,7 +44,6 @@ const SignIn: React.FC = () => {
 
   const handleSignIn = useCallback(async (data: SignInFormData) => {
     try {
-      // eslint-disable-next-line no-unused-expressions
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
@@ -69,7 +67,6 @@ const SignIn: React.FC = () => {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErros(err);
 
-        // eslint-disable-next-line no-unused-expressions
         formRef.current?.setErrors(errors);
 
         return;
@@ -110,7 +107,6 @@ const SignIn: React.FC = () => {
                 icon="mail"
                 placeholder="E-mail"
                 onSubmitEditing={() => {
-                  // eslint-disable-next-line no-unused-expressions
                   passwordInputRef.current?.focus();
                 }}
               />

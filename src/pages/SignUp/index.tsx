@@ -5,20 +5,18 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   TextInput,
   Alert,
 } from 'react-native';
+
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
+import api from '../../services/api';
 import getValidationErros from '../../utils/getValidationErros';
-
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
@@ -42,7 +40,6 @@ const SignUp: React.FC = () => {
 
   const handleSignUp = useCallback(async (data: SignUpFormData) => {
     try {
-      // eslint-disable-next-line no-unused-expressions
       formRef.current?.setErrors({});
       const schema = Yup.object().shape({
         name: Yup.string().required('Nome obrigatório'),
@@ -56,14 +53,17 @@ const SignUp: React.FC = () => {
         abortEarly: false,
       });
 
-      // await api.post('/users', data);
+      await api.post('/users', data);
 
-      // history.push('/');
+      Alert.alert('Cadastro realizado com sucesso!',
+        'Você já pode fazer login na aplicação.'
+      );
+
+      navegation.goBack();
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErros(err);
 
-        // eslint-disable-next-line no-unused-expressions
         formRef.current?.setErrors(errors);
 
         return;
@@ -102,7 +102,6 @@ const SignUp: React.FC = () => {
                 placeholder="Nome"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  // eslint-disable-next-line no-unused-expressions
                   emailInputRef.current?.focus();
                 }}
               />
@@ -117,7 +116,6 @@ const SignUp: React.FC = () => {
                 placeholder="E-mail"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  // eslint-disable-next-line no-unused-expressions
                   passwordInputRef.current?.focus();
                 }}
               />
