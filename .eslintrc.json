@@ -39,7 +39,7 @@
       "import/prefer-default-export": "off",
       "no-unused-expressions": "off",
       "@typescript-eslint/no-unused-vars": 0,
-      "react/prop-types": ["enabled", { "ignore": "ignore", "customValidators": "customValidator" }],
+      //"react/prop-types": ["enabled", { "ignore": "ignore", "customValidators": "customValidator" }],
       "import/extensions": [
         "error",
         "ignorePackages",

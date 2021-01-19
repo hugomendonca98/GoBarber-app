@@ -25,6 +25,7 @@ interface InputRef {
 }
 
 const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
+  // eslint-disable-next-line react/prop-types
   { name, icon, ...rest },
   ref,
 ) => {
