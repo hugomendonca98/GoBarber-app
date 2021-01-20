@@ -30,13 +30,13 @@ import {
   CreateAccountButton,
   CreateAccountButtonText,
 } from './styles';
-import { useAth } from '../../hooks/auth';
+import { useAuth } from '../../hooks/auth';
 
 const SignIn: React.FC = () => {
   const navegation = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
-  const { signIn } = useAth();
+  const { signIn } = useAuth();
 
   interface SignInFormData {
     email: string;
