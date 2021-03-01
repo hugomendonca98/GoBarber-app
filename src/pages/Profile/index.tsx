@@ -26,6 +26,7 @@ import {
   UserAvatarButton,
   UserAvatar,
   BackButton,
+  LogoutButton,
 } from './styles';
 import { useAuth } from '../../hooks/auth';
 
@@ -41,7 +42,7 @@ const Profile: React.FC = () => {
   const navegation = useNavigation();
 
   const formRef = useRef<FormHandles>(null);
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, signOut } = useAuth();
 
   const emailInputRef = useRef<TextInput>(null);
   const OldpasswordInputRef = useRef<TextInput>(null);
@@ -52,25 +53,25 @@ const Profile: React.FC = () => {
     async (data: ProfileFormData) => {
       try {
         formRef.current?.setErrors({});
-
         const schema = Yup.object().shape({
           name: Yup.string().required('Nome obrigatório'),
           email: Yup.string()
-            .required('E-mail obrigatório')
-            .email('Digite um e-mail válido'),
+            .email('Digite um e-mail válido')
+            .required('E-mail obrigatório'),
           old_password: Yup.string(),
           password: Yup.string().when('old_password', {
-            is: (val: string | any[]) => !!val.length,
+            is: (val: string) => !!val.length,
             then: Yup.string().required('Campo obrigatório'),
             otherwise: Yup.string(),
           }),
           password_confirmation: Yup.string()
             .when('old_password', {
-              is: (val: string | any[]) => !!val.length,
+              is: (val: string) => !!val.length,
               then: Yup.string().required('Campo obrigatório'),
+
               otherwise: Yup.string(),
             })
-            .oneOf([Yup.ref('password'), null], 'Confirmação incorreta'),
+            .oneOf([Yup.ref('password'), undefined], 'Confirmação incorreta'),
         });
 
         await schema.validate(data, {
@@ -178,6 +179,10 @@ const Profile: React.FC = () => {
               <Icon name="chevron-left" size={24} color="#999591" />
             </BackButton>
 
+            <LogoutButton onPress={signOut}>
+              <Icon name="power" size={24} color="#999591" />
+            </LogoutButton>
+
             <UserAvatarButton onPress={handleUpdateAvatar}>
               <UserAvatar source={{ uri: user.avatar_url }} />
             </UserAvatarButton>
@@ -186,11 +191,7 @@ const Profile: React.FC = () => {
               <Title>Meu perfil</Title>
             </View>
 
-            <Form
-              initialData={{ name: user.name, email: user.email }}
-              ref={formRef}
-              onSubmit={handleSaveProfile}
-            >
+            <Form initialData={user} ref={formRef} onSubmit={handleSaveProfile}>
               <Input
                 autoCapitalize="words"
                 name="name"
@@ -245,7 +246,7 @@ const Profile: React.FC = () => {
                 ref={confirmPasswordInputRef}
                 secureTextEntry
                 autoCapitalize="none"
-                name="password_conrfirmation"
+                name="password_confirmation"
                 icon="lock"
                 placeholder="Confirmar senha"
                 textContentType="newPassword"
